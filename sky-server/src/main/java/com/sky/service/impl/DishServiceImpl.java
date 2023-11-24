@@ -9,6 +9,7 @@ import com.sky.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,6 +34,7 @@ public class DishServiceImpl implements DishService {
      * 新增菜品和对应的口味
      * @param dishDTO
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveWithFlavor(DishDTO dishDTO) {
 
@@ -45,10 +47,8 @@ public class DishServiceImpl implements DishService {
         Long dishId = dish.getId();
 
         List<DishFlavor> flavors = dishDTO.getFlavors();
-        if (flavors != null && flavors.size() > 0) {
-            flavors.forEach((dishFlavor) -> {
-                dishFlavor.setDishId(dishId);
-            });
+        if (flavors != null && !flavors.isEmpty()) {
+            flavors.forEach(dishFlavor -> dishFlavor.setDishId(dishId));
             // 向口味表插入 n 条数据
             dishFlavorMapper.insertBatch(flavors);
         }
