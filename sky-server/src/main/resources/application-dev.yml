@@ -6,3 +6,9 @@ sky:
     database: sky_take_out
     username: root
     password: jacket123456
+#    下面的 OSS 配置莫得，需要等以后自己来搞个玩玩
+  alioss:
+    endpoint: oss-cn-nanjing.aliyuncs.com
+    access-key-id: FFFF
+    access-key-secret: passwordhhh
+    bucket-name: sky-take-out
